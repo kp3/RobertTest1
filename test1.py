@@ -1,8 +1,9 @@
 # -*- coding: UTF-8 -*-
 import os
+from colorama import init, AnsiToWin32, Fore
 
 def cls():
-    os.system('cls' if os.name=='nt' else 'clear')
+	print("\033[2Jtest")
 Points = 0   
 Map =  [[1,1,1,1,1,1,1,1,1,1],
         [1,2,0,0,0,0,0,0,0,1],
