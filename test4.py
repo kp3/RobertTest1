@@ -1,24 +1,54 @@
 # -*- coding: UTF-8 -*-
 import os
 import curses
+import random
 
 
 Points = 0   
-Map =  [[1,1,1,1,1,1,1,1,1,1],
-        [1,2,0,0,0,0,0,0,0,1],
-        [1,0,3,0,0,0,0,0,0,1],
-        [1,0,0,1,3,0,1,0,3,1],
-        [1,0,0,1,0,0,1,0,0,1],
-        [1,0,0,1,0,0,1,0,0,1],
-        [1,0,0,1,1,1,1,0,0,1],
-        [1,0,0,0,0,0,0,3,0,1],
-        [1,0,0,3,0,2,0,0,0,1],
-        [1,1,1,1,1,1,1,1,1,1]]
+Map =  [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
         
 Player = [5,5]
 
+Pop2 = 1
+while Pop2 <= 10:
+    x = random.randint(2,38)
+    y = random.randint(2,22)
 
+    if Map[y][x] == 0:
+        Map[y][x] = 2
+        Pop2 += 1
 
+Pop3 = 1
+while Pop3 <= 20:
+    x = random.randint(2,38)
+    y = random.randint(2,22)
+
+    if Map[y][x] == 0:
+        Map[y][x] = 3
+        Pop3 += 1
 
 
 def CheckTile( x, y ):
@@ -57,32 +87,41 @@ def Move( Input ):
         
 def main(stdscr):
     curses.start_color()
-    curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
-    curses.init_pair(2, curses.COLOR_RED, curses.COLOR_WHITE)
+    curses.curs_set(0)
+    curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_MAGENTA)
+    curses.init_pair(2, curses.COLOR_RED, curses.COLOR_MAGENTA)
     curses.init_pair(3, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
 
     while True:     
         stdscr.clear()
 
-        for row in range(10):
-                for val in range(10):
+        for row in range(24):
+                for val in range(40):
 
                     x = val*2
+                    #x = max(min(val*2, 80), 0)
                     y = row
                     if row == Player[1] and val == Player[0]:
-                        stdscr.addstr(y, x,'╦╦')
+                        try: stdscr.insstr(y, x,'▜▛')
+                        except curses.error: pass
                     elif Map[row][val] == 0:
-                        stdscr.addstr(y, x,'v^',curses.color_pair(3))
+                        try: stdscr.insstr(y, x,'v^',curses.color_pair(3))
+                        except curses.error: pass
                     elif Map[row][val] == 1:
-                        stdscr.addstr(y, x, '██',curses.color_pair(3))
+                        try: stdscr.insstr(y, x, '██',curses.color_pair(3))
+                        except curses.error: pass
                     elif Map[row][val] == 2:
-                        stdscr.addstr(y, x,'╭╮' )
+                        try: stdscr.insstr(y, x,'╭╮' )
+                        except curses.error: pass
                     elif Map[row][val] == 3:
-                        stdscr.addstr(y, x,'╱╲')
+                        try: stdscr.insstr(y, x,'╱╲')
+                        except curses.error: pass
                 print()
 
-        stdscr.addstr(10,0,'{:20}'.format("Player: " + str(Player)),curses.color_pair(2))
-        stdscr.addstr(11,0,'{:20}'.format("Points: [" + str(Points) + "]"),curses.color_pair(1))
+        try: stdscr.addstr(23,0,'{:20}'.format("Player: " + str(Player)),curses.A_BOLD | curses.color_pair(2))
+        except curses.error: pass
+        try: stdscr.addstr(23,20,'{:20}'.format("Points: [" + str(Points) + "]"),curses.color_pair(1))
+        except curses.error: pass
 
         c = stdscr.getch()
         if c == ord('q'):
