@@ -4,22 +4,25 @@ def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 Points = 0   
 Map =  [[1,1,1,1,1,1,1,1,1,1],
-        [1,0,0,0,0,0,0,0,0,1],
+        [1,2,0,0,0,0,0,0,0,1],
         [1,0,3,0,0,0,0,0,0,1],
         [1,0,0,1,3,0,1,0,3,1],
         [1,0,0,1,0,0,1,0,0,1],
         [1,0,0,1,0,0,1,0,0,1],
         [1,0,0,1,1,1,1,0,0,1],
         [1,0,0,0,0,0,0,3,0,1],
-        [1,0,0,3,0,0,0,0,0,1],
+        [1,0,0,3,0,2,0,0,0,1],
         [1,1,1,1,1,1,1,1,1,1]]
         
 Player = [5,5]
 
 
 def CheckTile( x, y ):
+    global Points
+    if Map[y][x]==2:
+        Points += 20
+        Map[y][x]=0
     if Map[y][x]==3:
-        global Points
         Points += 10
         Map[y][x]=0
 
@@ -47,7 +50,7 @@ def Move( Input ):
     if Input == 'd':        
         Player[0]+=1
     CheckTile(Player[0],Player[1])
-            
+        
 
 while True:     
     cls()
@@ -59,6 +62,8 @@ while True:
                     print(' ', end = ' ')
                 elif Map[row][val] == 1:
                     print('█', end = '█')
+                elif Map[row][val] == 2:
+                    print('╭', end = '╮')
                 elif Map[row][val] == 3:
                     print('╱', end = '╲')
             print()
